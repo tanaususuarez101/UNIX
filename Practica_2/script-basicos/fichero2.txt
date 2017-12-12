@@ -1,0 +1,7 @@
+este
+es
+el segundo
+fichero para
+leer y comprobar que 
+funciona el bucle for
+JEJEJEJEJEJEJEJE
