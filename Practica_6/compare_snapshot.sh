@@ -24,8 +24,8 @@ do
 		"!")
 			if [[ $perm_prov == 'x' ]]
 			then
-					perm_prov=$permisos;
-					cont_prov=$md5;
+				perm_prov=$permisos;
+				cont_prov=$md5;
 			else
 				echo "Archivo modificado :: $archivo";
 				[[ $perm_prov != $permisos ]] && echo "-> Han cambiado los permisos de $perm_prov a $permisos";
