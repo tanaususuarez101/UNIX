@@ -1,7 +1,8 @@
 #!/bin/bash
 
 rutas="/bin /usr/bin /sbin/ /usr/sbin"
-find $rutas -type f -printf '%m ' -exec md5sum {} \; > /snapshot/registro_temp.txt 2>/dev/null
+$registro="/snapshot/registro_temp.txt"
+find $rutas -type f -printf '%m ' -exec md5sum {} \; > $registro  2>/dev/null
 
 
 #La opción -c muestra toda la lista de los fichero y marca con:
@@ -38,8 +39,9 @@ do
 
 
 done
+rm -i $registro
 echo "------------------"
-
+exit 0;
 #Archivo añadido
 #Archivo borrado
 #Archivo cambio permisos
