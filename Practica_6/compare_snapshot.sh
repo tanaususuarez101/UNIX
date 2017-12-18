@@ -11,10 +11,10 @@ find $rutas -type f -printf '%m ' -exec md5sum {} \; > $registro  2>/dev/null
 # - Archivos eliminados
 # El grep filtra y obtiene todas la coincidencias que empieze por alguno de esos símbolos
 perm_prov='x'
-cont_prev='x'
+cont_prov='x'
 
 
-diff -c /snapshot/registro.txt /snapshot/registro_temp.txt | grep -e "^[!+-] " |
+diff -c /snapshot/registro.txt /snapshot/registro_temp.txt | grep -e "^[!+-] " | sort -t" " -k4 |
 while read opc permisos md5 archivo
 do
 	case "$opc" in	
@@ -23,16 +23,18 @@ do
 		"-")
 			echo "Archivo borrado :: $archivo";;
 		"!")
-			if [[ $perm_prov == 'x' ]]
-			then
-				perm_prov=$permisos;
-				cont_prov=$md5;
-			else
-				echo "Archivo modificado :: $archivo";
-				[[ $perm_prov != $permisos ]] && echo "-> Han cambiado los permisos de $perm_prov a $permisos";
-				[[ $cont_prov != $md5 ]] && echo "-> Ha cambiado el contenido";
+#           echo "Archivo modificado :: $archivo :: $permisos :: $md5"
+#            echo "$archivo"
+		    if [[ $perm_prov == 'x' ]] || [[ $cont_prov == 'x' ]]
+		    then
+		   	    perm_prov=$permisos;
+    		   	cont_prov=$md5;
+		    else
+				echo "Archivo modificado :: $archivo ";
+				[[ $perm_prov != $permisos ]] && echo "  Permisos :: $perm_prov :: $permisos";
+				[[ $cont_prov != $md5 ]] && echo "  Contenido :: $cont_prov :: $md5";
 				perm_prov='x'
-				cont_prov='x'
+				cont_prov='x'                
 			fi
 			;;
 	esac
