@@ -36,8 +36,6 @@ do
 			fi
 			;;
 	esac
-
-
 done
 rm -i $registro
 echo "------------------"
