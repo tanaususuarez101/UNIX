@@ -1,11 +1,27 @@
 #!/bin/bash
 
 rutas="/bin /usr/bin /sbin/ /usr/sbin"
-$registro="/snapshot/registro_temp.txt"
-find $rutas -type f -printf '%m ' -exec md5sum {} \; > $registro  2>/dev/null
+reg_new="/snapshot/registro_temp.txt"
+reg_old="/snapshot/registro.txt"
+reg_vol="/var/log/binchecker"
 
 
-#La opción -c muestra toda la lista de los fichero y marca con:
+
+[[ -d reg_vol ]] || touch $reg_vol
+
+
+if [[ $# > 1 ]] && [[ $1 == '-f' ]]; then
+	if [[ -f $2 ]];then
+		reg_old=$1
+	else
+		echo "ERROR: Fichero origen"
+		exit -2;
+	fi
+fi
+
+find $rutas -type f -printf '%m ' -exec md5sum {} \; > $reg_new  2>/dev/null
+
+#La opción diff -c muestra toda la lista de los fichero y marca con:
 # ! archivo que han cambiado (aparecerán dos)
 # + Archivos añadidos
 # - Archivos eliminados
@@ -14,7 +30,7 @@ perm_prov='x'
 cont_prov='x'
 
 
-diff -c /snapshot/registro.txt /snapshot/registro_temp.txt | grep -e "^[!+-] " | sort -t" " -k4 |
+diff -c $reg_old $reg_new | grep -e "^[!+-] " | sort -t" " -k4 |
 while read opc permisos md5 archivo
 do
 	case "$opc" in	
@@ -23,8 +39,6 @@ do
 		"-")
 			echo "Archivo borrado :: $archivo";;
 		"!")
-#           echo "Archivo modificado :: $archivo :: $permisos :: $md5"
-#            echo "$archivo"
 		    if [[ $perm_prov == 'x' ]] || [[ $cont_prov == 'x' ]]
 		    then
 		   	    perm_prov=$permisos;
