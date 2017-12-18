@@ -35,18 +35,18 @@ while read opc permisos md5 archivo
 do
 	case "$opc" in	
 		"+")
-			echo "Archivo añadido :: $archivo ";;
+			echo "Archivo añadido :: $archivo " >> $reg_vol;;
 		"-")
-			echo "Archivo borrado :: $archivo";;
+			echo "Archivo borrado :: $archivo" >> $reg_vol;;
 		"!")
 		    if [[ $perm_prov == 'x' ]] || [[ $cont_prov == 'x' ]]
 		    then
 		   	    perm_prov=$permisos;
     		   	cont_prov=$md5;
 		    else
-				echo "Archivo modificado :: $archivo ";
-				[[ $perm_prov != $permisos ]] && echo "  Permisos :: $perm_prov :: $permisos";
-				[[ $cont_prov != $md5 ]] && echo "  Contenido :: $cont_prov :: $md5";
+				echo "Archivo modificado :: $archivo " >> $reg_vol; 
+				[[ $perm_prov != $permisos ]] && echo "  Permisos :: $perm_prov :: $permisos" >> $reg_vol
+				[[ $cont_prov != $md5 ]] && echo "  Contenido :: $cont_prov :: $md5" >> $reg_vol
 				perm_prov='x'
 				cont_prov='x'                
 			fi
@@ -55,7 +55,7 @@ do
 done
 rm -f $registro
 
-echo "------------------"
+echo "------------------" >> $reg_vol
 exit 0;
 #Archivo añadido
 #Archivo borrado
