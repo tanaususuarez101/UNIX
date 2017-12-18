@@ -39,7 +39,7 @@ do
 			;;
 	esac
 done
-rm -i $registro
+rm -f $registro
 echo "------------------"
 exit 0;
 #Archivo añadido
