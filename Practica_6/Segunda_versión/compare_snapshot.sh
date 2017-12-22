@@ -1,4 +1,21 @@
+
 #!/bin/bash
+
+ayuda() {
+	echo "- Uso del script compare_snapshot.sh"
+	echo -e "\nEl script realiza una comparación de los archivos registrados en la lista elabolara por snapshot.sh (registro.txt) en la que señala si se ha añadido, eliminado o modificado algún fichero."
+	echo -e "\nLa sintaxis para usar el script debería ser la siguiente:"
+	echo "compare_snapshot.sh [-f ruta_fichero] [-h | --help]"
+	echo "[-f ruta_fichero] Fuerza al script a realizar el volcado con el fichero pasado por parámetro."
+	echo "[-h | --help] Abre la ayuda del script"
+	exit
+}
+
+
+die() {
+	echo $1 >&2
+	exit 1
+}
 
 rutas="/bin /usr/bin /sbin/ /usr/sbin"
 
@@ -17,6 +34,11 @@ fichero_comparativo="/snapshot/registro_temp.txt"
 fichero_log="/var/log/binchecker"
 
 
+if [[ $@ > 0 ]]
+then
+    [[ $1 == '-h' ]] || [[ $1 == '--help' ]] && ayuda
+    [[ $1 != '-h' ]] && [[ $1 != '--help' ]] && [[ $1 != '-f' ]] && die "Argumento incorrecto. Use --help para más información."
+fi
 
 if [[ $# > 1 ]] && [[ $1 == '-f' ]]; then
 	if [[ -f $2 ]];then

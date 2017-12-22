@@ -1,0 +1,26 @@
+a) qué estrategia se ha seguido para implementarlos;
+La estrategia planteada en un principio ha consistido en dos partes
+La primera snapshot: Ha consistido en realizar una "foto" del las carpetas que se han indicado en el enunciado, donde costa el contenido, utilizando una función hash, md5. La ruta del fichero y los permisos.
+
+La segunda compare_snapshot: quizás la más elaborada ha consistido en realizar una misma foto, como el snapshot y comparar ambas imagenes con la función diff. La función diff devolvera con un -c las lineas de ambos ficheros de la siguiente forma: con '!' las lineas modificadas.
+Con un '+' las lineas añadidas, con un '-' las lineas eliminadas. Cada linea corresponde a los campos mencionados anteriormente: "nombre dichero" "permisos" "md5sum".
+
+El while hará la función de recorrer cada coincidencia y volcará el contenido en el fichero determinado en el enunciado del ejercicio. Como están ordenadas las coincidencias de modificación saldrán repetidas dos veces, por lo cual en el "case !)" solo mostrará una ves el archivo y las diferencias encontradas (si ha sido de contenido o si ha sido de permisos).
+
+
+b) qué opciones adicionales se han incorporado;
+
+Además de lo mensionado se han añadido funciones como: ayuda para el usuario, opciones para determinar el fichero donde guardar los contenidos de los resultados del script.
+
+También se ha diseñado un script para programar el intervalo de tiempo el cual el programa comprobará los cambios realizados en el sistema.
+
+c) cómo se ha probado el correcto funcionamiento del script;
+
+Para comprobar el funcionamiento del script se ha realizado otro script, donde se realiza pruebas como, añadir, borrar, renombrar, cambiar permisos, cambiar contenido de los ficheros.
+
+d) qué fallos o incidencias conocidas están pendientes de resolver
+
+Alguno de los problemas encontrados mas "pesados" de resolver ha sido el "renombrar" ya que nuestro programa lo mostraba como archivo modificado  y no como "archivo eliminado" y "archivo añadido". Esto lo hemos podido resolver
+
+
+Se ha añadido una captura de pantalla de la ejecución del script "test.sh"
